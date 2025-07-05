@@ -50,6 +50,7 @@ public abstract class GestureRecognizerBase : MonoBehaviour
     // 외부에서 오버라이드 가능한 완료 이벤트
     protected virtual void OnGestureDetected()
     {
+        
         Debug.Log($"[{name}] 제스처 인식 완료!");
     }
 

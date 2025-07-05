@@ -3,13 +3,13 @@ using UnityEngine.Events;
 
 public class GhostTrigger : MonoBehaviour
 {
-    public UnityEvent onTouched;  // Unity¿¡¼­ Inspector¿¡¼­ ¿¬°á °¡´É
+    public UnityEvent onTouched;  // Unityï¿½ï¿½ï¿½ï¿½ Inspectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Hand"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Hand"))
         {
-            Debug.Log("¼ÕÀÌ À¯·É¿¡ ´ê¾Ò´Ù!");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½É¿ï¿½ ï¿½ï¿½Ò´ï¿½!");
             onTouched.Invoke();
         }
     }
