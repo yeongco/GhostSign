@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaRadius: 5
-  floatHeight: 1
+  floatHeight: 0.5
   floatSpeed: 1
   floatAmplitude: 0.3
 --- !u!114 &3738057242668171070
