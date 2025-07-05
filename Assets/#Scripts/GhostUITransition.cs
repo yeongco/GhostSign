@@ -21,7 +21,7 @@ public class GhostUITransition : MonoBehaviour
     {
         // 컴포넌트 캐싱
         canvas = GetComponent<Canvas>();
-        cg     = GetComponent<CanvasGroup>();
+        cg = GetComponent<CanvasGroup>();
 
         // 초기 투명 상태
         cg.alpha = 0f;
