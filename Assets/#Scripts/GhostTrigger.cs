@@ -11,6 +11,12 @@ public class GhostTrigger : MonoBehaviour
         {
             Debug.Log("���� ���ɿ� ��Ҵ�!");
             onTouched.Invoke();
+            Invoke("DestroySelf", 3f);
         }
+    }
+
+    private void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

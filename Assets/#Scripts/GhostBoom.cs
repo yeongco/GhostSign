@@ -7,6 +7,7 @@ public class GhostBoom : MonoBehaviour
     [Header("이벤트 필터링")]
     [Tooltip("이 컴포넌트가 반응할 GhostType을 지정")]
     public GhostType ghostType;
+    public GhostUITransition transition;
 
     [Header("폭발 이펙트")]
     [Tooltip("폭발 시 인스펙터에 할당할 파티클 프리팹")]
@@ -66,6 +67,6 @@ public class GhostBoom : MonoBehaviour
         seq.AppendInterval(explosionDelay);
 
         // 5) 완료 시 오브젝트 파괴
-        seq.OnComplete(() => Destroy(gameObject));
+        seq.OnComplete(() => { Destroy(gameObject);  transition.PlayTransition(); });
     }
 }
