@@ -100,9 +100,11 @@ public abstract class GestureRecognizerBase : MonoBehaviour
 
     public void onGestureDone(GhostType ghost)
     {
+        
         // 내 GhostType이 아닐 때는 무시
         if (ghost != ghostType)
             return; 
+            Debug.Log("인식");
 
         // 이미 3번 이상 처리했으면 무시
         if (gestureDoneCount >= 3)
