@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class HandTypeEvent : UnityEvent<GestureRecognizerBase.HandType> { }
@@ -12,11 +13,14 @@ public abstract class GestureRecognizerBase : MonoBehaviour
 
     protected bool[] handReady = new bool[2];
     [Header("제스처 공통 설정")]
+    public Sprite[] gestureSprites;
     public float gestureTimeout = 1.5f;
     protected float startTime;
     public GameObject ImageCanvas;
+    public AudioSource audioSource;
     private int gestureDoneCount = 0;
     bool eventLoopDone = false;
+    
 
     public void OnEnable()
     {
@@ -53,6 +57,8 @@ public abstract class GestureRecognizerBase : MonoBehaviour
         if (eventLoopDone)
             return;
         eventLoopDone = true;
+        if (audioSource != null)
+            audioSource.Play();
         OnGestureDetected();
         Invoke("ResetGesture", 0.3f);
     }
@@ -98,31 +104,46 @@ public abstract class GestureRecognizerBase : MonoBehaviour
         Debug.Log("오른손 준비 취소");
     }
 
-    public void onGestureDone(GhostType ghost)
+     public void onGestureDone(GhostType ghost)
     {
-        
-        // 내 GhostType이 아닐 때는 무시
+        // 내 GhostType이 아닐 때 무시
         if (ghost != ghostType)
-            return; 
-            Debug.Log("인식");
+            return;
+        Debug.Log("인식");
 
         // 이미 3번 이상 처리했으면 무시
         if (gestureDoneCount >= 3)
             return;
 
-        // 호출 횟수 증가 (1 → 첫 번째, 2 → 두 번째, 3 → 세 번째)
+        // 호출 횟수 증가
         gestureDoneCount++;
 
-        // ImageCanvas의 자식 중 해당 인덱스 자식 활성화
         int childIndex = gestureDoneCount - 1; // 0,1,2
+
+        // 1) 자식 개수 체크
         if (childIndex < ImageCanvas.transform.childCount)
         {
-            GameObject child = ImageCanvas.transform.GetChild(childIndex).gameObject;
-            child.SetActive(true);
+            var child = ImageCanvas.transform.GetChild(childIndex).gameObject;
+            // 2) Image 컴포넌트 가져오기
+            var img = child.GetComponent<Image>();
+            if (img == null)
+            {
+                Debug.LogWarning($"[{name}] 자식 {childIndex}에 Image 컴포넌트가 없습니다.");
+                return;
+            }
+            // 3) 스프라이트 배열 범위 체크 후 변경
+            if (gestureSprites != null && childIndex < gestureSprites.Length)
+            {
+                img.sprite = gestureSprites[childIndex];
+            }
+            else
+            {
+                Debug.LogWarning($"[{name}] gestureSprites 배열에 인덱스 {childIndex}가 없습니다.");
+            }
         }
         else
         {
-            Debug.LogWarning($"ImageCanvas 자식 개수 부족: 필요한 인덱스 {childIndex}");
+            Debug.LogWarning($"[{name}] ImageCanvas 자식 개수 부족: 필요한 인덱스 {childIndex}");
         }
 
         // 세 번째 신호일 때 최종 완료 이벤트 호출

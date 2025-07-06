@@ -24,11 +24,13 @@ namespace Autohand {
         }
 
         void OnGestureStart(Hand hand, HandPoseGestureData data) {
-            currentPoseDistance.color = Color.green;
+            if(currentPoseDistance != null)
+                currentPoseDistance.color = Color.green;
         }
 
         void OnGestureStop(Hand hand, HandPoseGestureData data) {
-            currentPoseDistance.color = Color.red;
+            if(currentPoseDistance != null)
+                currentPoseDistance.color = Color.red;
         }
 
         private void Update() {
