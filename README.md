@@ -1,1 +1,1 @@
-# XRHackerThon
+# GhostSign
