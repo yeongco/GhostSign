@@ -70,6 +70,7 @@ namespace Autohand {
         public float requiredActivationAngle = 25f;
         [Tooltip("The angle distance required to MAINTAIN the pose, relative to the given axis and relative transform settings")]
         public float requiredMaintainActivationAngle = 80f;
+        public bool reverseAxis = false;
         public Axis palmAxis = Axis.None;
         public Axis targetAxis = Axis.None;
         public Transform relativeTransform;
@@ -232,7 +233,7 @@ namespace Autohand {
                 data.validDirectionAngleDistance = 0;
                 return true;
             }
-
+            //Vector3 axis = reverseAxis ? -GetPalmAxis(hand) : GetPalmAxis(hand);
             var angle = Vector3.Angle(GetPalmAxis(hand), GetTargetAxis());
             var angleDistance = angle - requiredMaintainActivationAngle;
             angleDistance = Mathf.Clamp(angleDistance, 0, angleDistance);
@@ -242,14 +243,29 @@ namespace Autohand {
 
 
 
-        Vector3 GetPalmAxis(Hand hand) {
-            if(palmAxis == Axis.X)
-                return hand.palmTransform.right;
-            else if(palmAxis == Axis.Y)
-                return hand.palmTransform.up;
-            else if(palmAxis == Axis.Z)
-                return hand.palmTransform.forward;
-            return Vector3.zero;
+        Vector3 GetPalmAxis(Hand hand)
+        {
+            Vector3 axis;
+
+            // 1) palmAxis에 따라 기준 축 선택
+            switch (palmAxis)
+            {
+                case Axis.X:
+                    axis = hand.palmTransform.right;
+                    break;
+                case Axis.Y:
+                    axis = hand.palmTransform.up;
+                    break;
+                case Axis.Z:
+                    axis = hand.palmTransform.forward;
+                    break;
+                default:
+                    axis = Vector3.zero;
+                    break;
+            }
+
+            // 2) reverseAxis 플래그에 따라 방향 반전
+            return reverseAxis ? -axis : axis;
         }
 
         Vector3 GetTargetAxis() {

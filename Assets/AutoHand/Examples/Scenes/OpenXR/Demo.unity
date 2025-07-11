@@ -157,6 +157,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+    - target: {fileID: 2191757777911485842, guid: 5e50eba45ef63694ab6dad66efcbb007,
+        type: 3}
+      propertyPath: m_text
+      value: Projection Settings
+      objectReference: {fileID: 0}
     - target: {fileID: 3764314199608450720, guid: 5e50eba45ef63694ab6dad66efcbb007,
         type: 3}
       propertyPath: m_fontAsset
